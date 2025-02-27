@@ -4,20 +4,48 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Notes</title>
+
+    <!-- Include Marked.js for Markdown rendering -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <!-- Include MathJax for LaTeX rendering -->
+    <script type="text/javascript" async 
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+    
     <link rel="stylesheet" href="assets/styles.css">
-    <script defer src="assets/script.js"></script>
 </head>
 <body>
 
     <header>
-        <h1>📖 My Notes</h1>
+        <h1>My Notes</h1>
         <nav><a href="index.html">🏠 Home</a></nav>
     </header>
 
-    <section>
-        <input type="text" id="search" placeholder="Search notes...">
-        <ul id="notes-list"></ul>
-    </section>
+    <section id="content"></section>
+
+    <script>
+        // Function to load and render markdown file
+        function loadMarkdown(filePath) {
+            fetch(filePath)
+                .then(response => response.text())
+                .then(markdown => {
+                    // Convert Markdown to HTML using marked.js
+                    let htmlContent = marked(markdown);
+
+                    // Render the content in the page
+                    document.getElementById('content').innerHTML = htmlContent;
+
+                    // After rendering the markdown, MathJax will process LaTeX equations
+                    MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
+                })
+                .catch(error => {
+                    console.error('Error loading the markdown file:', error);
+                    document.getElementById('content').innerHTML = 'Failed to load notes.';
+                });
+        }
+
+        // Example usage: Load 'Criminal_Law.md' from the 'notes' directory
+        loadMarkdown('notes/Note1.md');
+    </script>
 
 </body>
 </html>

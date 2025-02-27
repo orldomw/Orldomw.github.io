@@ -1,23 +1,129 @@
-body {
-    font-family: Arial, sans-serif;
-    background-color: #f8f8f8;
-    text-align: center;
+/* Reset some default browser styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
+/* Set background and text color for dark mode */
+body {
+    background-color: #121212; /* Dark background */
+    color: #e0e0e0; /* Light text for contrast */
+    font-family: 'Arial', sans-serif;
+    line-height: 1.6;
+    font-size: 16px;
+}
+
+/* Links */
+a {
+    color: #80cbc4; /* Light teal color for links */
+    text-decoration: none;
+    font-weight: bold;
+}
+
+a:hover {
+    color: #26a69a; /* Slightly darker teal on hover */
+}
+
+/* Header */
 header {
-    background-color: #333;
-    color: white;
-    padding: 10px;
+    background-color: #1e1e1e; /* Darker background for the header */
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+header h1 {
+    background-color: #333333; /* Darker grey background for the title */
+    color: #e0e0e0; /* Light text for the title */
+    padding: 10px 15px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+nav {
+    margin-top: 10px;
 }
 
 nav a {
-    color: white;
+    margin-right: 20px;
     text-decoration: none;
-    margin: 10px;
-    font-size: 18px;
+    color: #e0e0e0; /* Light color for navigation links */
 }
 
+nav a:hover {
+    color: #80cbc4; /* Highlight color on hover */
+}
+
+/* Content Section */
 section {
-    margin-top: 20px;
     padding: 20px;
+    background-color: #1d1d1d; /* Slightly lighter background for sections */
+    margin: 20px;
+    border-radius: 8px;
+}
+
+section h2 {
+    color: #e0e0e0;
+    margin-bottom: 10px;
+}
+
+section p {
+    color: #bdbdbd; /* Slightly lighter color for paragraphs */
+}
+
+/* List Styles */
+ul, ol {
+    list-style-type: none; /* Remove default list styles */
+    padding: 0;
+}
+
+li {
+    background-color: #2a2a2a; /* Darker background for list items */
+    margin: 10px 0;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+li a {
+    color: #80cbc4; /* Teal links in list items */
+    text-decoration: none;
+    font-weight: bold;
+}
+
+li a:hover {
+    color: #26a69a; /* Darker teal on hover for list links */
+}
+
+/* Input & Search Box */
+input[type="text"] {
+    background-color: #333333;
+    color: #e0e0e0;
+    border: 1px solid #444444;
+    padding: 10px;
+    width: 100%;
+    border-radius: 5px;
+    font-size: 16px;
+    margin-bottom: 20px;
+}
+
+input[type="text"]:focus {
+    outline: none;
+    border-color: #80cbc4; /* Highlight border color when focused */
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    body {
+        font-size: 14px;
+    }
+
+    header h1 {
+        font-size: 1.5rem;
+    }
+
+    nav a {
+        display: block;
+        margin-bottom: 10px;
+    }
 }
