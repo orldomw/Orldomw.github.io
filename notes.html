@@ -58,17 +58,22 @@
                                     .then(markdownContent => {
                                         // Convert markdown to HTML using marked.js
                                         const htmlContent = marked(markdownContent);
-                                        
-                                        // Create a link to open the full markdown file
+
+                                        // Create the link for the file
                                         a.href = item.download_url; // Link to the raw markdown file for download
                                         a.target = '_blank';
                                         a.textContent = item.name.replace('.md', ''); // Display file name without extension
 
-                                        // Append the file link and converted markdown as HTML
-                                        li.innerHTML = `
-                                            <a href="${item.download_url}" target="_blank">${item.name.replace('.md', '')}</a>
-                                            <div class="markdown-content">${htmlContent}</div>
-                                        `;
+                                        // Append the link and rendered markdown content (as HTML)
+                                        const contentDiv = document.createElement('div');
+                                        contentDiv.classList.add('markdown-content');
+                                        contentDiv.innerHTML = htmlContent; // Add the rendered HTML
+
+                                        // Append link and content to the list item
+                                        li.appendChild(a);
+                                        li.appendChild(contentDiv);
+
+                                        // Finally append the list item to the notes list
                                         notesList.appendChild(li);
                                     })
                                     .catch(error => {
