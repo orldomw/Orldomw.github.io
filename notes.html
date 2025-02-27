@@ -4,47 +4,64 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Notes</title>
-
-    <!-- Include Marked.js for Markdown rendering -->
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-    <!-- Include MathJax for LaTeX rendering -->
     <script type="text/javascript" async 
         src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script>
-    
     <link rel="stylesheet" href="assets/styles.css">
 </head>
 <body>
 
+    <!-- Header with navigation -->
     <header>
         <h1>My Notes</h1>
         <nav><a href="index.html">🏠 Home</a></nav>
     </header>
 
-    <section id="content"></section>
+    <section id="content">
+        <h2>Available Notes</h2>
+
+        <!-- List of markdown files -->
+        <ul id="notes-list">
+            <!-- List items will be dynamically added here -->
+        </ul>
+    </section>
 
     <script>
-        // Function to load and render markdown file
-        function loadMarkdown(filePath) {
-            fetch(filePath)
-                .then(response => response.text())
-                .then(markdown => {
-                    // Convert Markdown to HTML using marked.js
-                    let htmlContent = marked(markdown);
+        const username = 'orldomw'; // Your GitHub username
+        const repo = 'orldomw.github.io'; // Replace with your repository name (e.g. 'law-notes')
+        const folder = 'notes'; // Folder name where .md files are located
 
-                    // Render the content in the page
-                    document.getElementById('content').innerHTML = htmlContent;
+        // GitHub API URL to fetch the contents of the 'notes' folder
+        const apiUrl = `https://api.github.com/repos/orldomw/orldomw.github.io/notes`;
 
-                    // After rendering the markdown, MathJax will process LaTeX equations
-                    MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
+        // Function to fetch and display the markdown files
+        function fetchMarkdownFiles() {
+            fetch(apiUrl)
+                .then(response => response.json())
+                .then(data => {
+                    const notesList = document.getElementById('notes-list');
+                    notesList.innerHTML = ''; // Clear the existing list
+
+                    data.forEach(item => {
+                        // Filter only .md files
+                        if (item.name.endsWith('.md')) {
+                            const li = document.createElement('li');
+                            const a = document.createElement('a');
+                            a.href = item.download_url; // Link to the raw markdown file
+                            a.target = '_blank';
+                            a.textContent = item.name.replace('.md', ''); // Display file name without extension
+                            li.appendChild(a);
+                            notesList.appendChild(li);
+                        }
+                    });
                 })
                 .catch(error => {
-                    console.error('Error loading the markdown file:', error);
-                    document.getElementById('content').innerHTML = 'Failed to load notes.';
+                    console.error('Error loading files:', error);
                 });
         }
 
-        // Example usage: Load 'Criminal_Law.md' from the 'notes' directory
-        loadMarkdown('notes/Note1.md');
+        // Fetch the markdown files when the page loads
+        document.addEventListener('DOMContentLoaded', fetchMarkdownFiles);
     </script>
 
 </body>
