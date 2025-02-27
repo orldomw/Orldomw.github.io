@@ -35,30 +35,40 @@
         const apiUrl = `https://api.github.com/repos/orldomw/contents/orldomw.github.io/notes`;
 
         // Function to fetch and display the markdown files
-        function fetchMarkdownFiles() {
-            fetch(apiUrl)
-                .then(response => response.json())
-                .then(data => {
-                    const notesList = document.getElementById('notes-list');
-                    notesList.innerHTML = ''; // Clear the existing list
+        function fetchMarkdownFiles() 
+        {
+    fetch(apiUrl)
+        .then(response => response.json())
+        .then(data => {
+            // Log the entire response to the console to debug
+            console.log("API Response: ", data);
 
-                    data.forEach(item => {
-                        // Filter only .md files
-                        if (item.name.endsWith('.md')) {
-                            const li = document.createElement('li');
-                            const a = document.createElement('a');
-                            a.href = item.download_url; // Link to the raw markdown file
-                            a.target = '_blank';
-                            a.textContent = item.name.replace('.md', ''); // Display file name without extension
-                            li.appendChild(a);
-                            notesList.appendChild(li);
-                        }
-                    });
-                })
-                .catch(error => {
-                    console.error('Error loading files:', error);
+            const notesList = document.getElementById('notes-list');
+            notesList.innerHTML = ''; // Clear the existing list
+
+            // Check if data is an array and contains files
+            if (Array.isArray(data)) {
+                data.forEach(item => {
+                    // Filter only .md files
+                    if (item.name.endsWith('.md')) {
+                        const li = document.createElement('li');
+                        const a = document.createElement('a');
+                        a.href = item.download_url; // Link to the raw markdown file
+                        a.target = '_blank';
+                        a.textContent = item.name.replace('.md', ''); // Display file name without extension
+                        li.appendChild(a);
+                        notesList.appendChild(li);
+                    }
                 });
-        }
+            } else {
+                console.error("Error: API response is not in expected format.");
+            }
+        })
+        .catch(error => {
+            console.error('Error loading files:', error);
+        });
+}
+
 
         // Fetch the markdown files when the page loads
         document.addEventListener('DOMContentLoaded', fetchMarkdownFiles);
